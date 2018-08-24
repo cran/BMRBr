@@ -22,24 +22,25 @@ bmrb_download <- function(id_list, output_dir, base_url = "http://www.bmrb.wisc.
         if(!dir.exists(file.path(output_dir))) {dir.create(file.path(output_dir))}
         id_list <- gsub('([[:alpha:]]+)', '', id_list)
         print("Downloading...")
+
         for (bmrb_id in id_list) {
                 file_url = paste0(base_url, "/", prefix, bmrb_id, ".", extension)
                 file_name = paste0(output_dir, "/", prefix, bmrb_id, ".", extension)
                 if (file.exists(file_name)) {
-                        print("Skipping ", prefix, bmrb_id, ", it's already exists.")
+                        print(paste0("Skipping ", prefix, bmrb_id, ", it's already exists."))
                 }
                 else{
                         tryCatch(
                                 {
                                         if (verbose) {
-                                                print("Processing: ", prefix, bmrb_id)
+                                                cat(paste0("Processing: ", prefix, bmrb_id))
                                         }
                                         utils::download.file(file_url, file_name, quiet = TRUE)
-                                        print("Downloaded: ", prefix, bmrb_id)
+                                        print(paste0("Downloaded: ", prefix, bmrb_id))
                                 },
 
                                 error = function(e) {
-                                          print(e)
+                                        print(e)
                                 }
                           )
                 }
